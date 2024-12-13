@@ -345,11 +345,11 @@ elif [ "$repo_list" ] ; then
       tee report.md |
       md_to_html |
       ./send-mail.py \
-      --from-name "$from_name" \
-      --from-email "$from_email" \
-      --to-email "$email" \
-      --subject "$subject"
-  done
+        --from-name "$from_name" \
+        --from-email "$from_email" \
+        --to-email "$email" \
+        --subject "$subject"
+    done
 else
   usage
 fi
