@@ -352,7 +352,7 @@ elif [ "$repo_list" ] ; then
   if [ -z "$from_email" -o -z "$from_name" -o -z "$subject" ] ; then
     usage
   fi
-  while read url email <"$repo_list" ; do
+  while read url email ; do
     if [ "$test_run" ] ; then
       email="$from_email"
     fi
@@ -368,7 +368,7 @@ elif [ "$repo_list" ] ; then
         --to-email "$email" \
         --subject "$subject" \
         --content-type html
-    done
+    done <"$repo_list"
 else
   usage
 fi
