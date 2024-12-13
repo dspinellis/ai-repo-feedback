@@ -25,8 +25,8 @@ export SMTP_PASSWORD=mypassword
 export OPENAI_API_KEY=sk-.......
 
 # Create a Markdown report from a local repo
-feedback -d repo-dir >comments.md
+feedback.sh -d repo-dir >comments.md
 
 # Send out reports 
-feedback -l repo-list -f mary@example.com -F 'Mary Zhu' -s Feedback
+feedback.sh -l repo-list -f mary@example.com -F 'Mary Zhu' -s Feedback
 ```
