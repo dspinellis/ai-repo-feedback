@@ -273,6 +273,11 @@ report_commits()
 Below you will find a summary of the project's commits.
 Please provide feedback regarding their frequency, the participation
 of team members, their size, and the contents of the commit messages.
+Note that some team members may not have any commits associated with
+them, so comment only on the ones that appear here but avoid stating
+that all team members have contributed.
+Regarding commit message wording, we want the summary to be expressed
+in the imperative mood ("Fix X" rather than "Fixed x" or "Fixes X").
 EOF
     git --git-dir="$repo"/.git log --stat
   ) |
