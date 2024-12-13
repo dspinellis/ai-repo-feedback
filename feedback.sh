@@ -57,11 +57,20 @@ while getopts "d:F:f:hl:s:" opt; do
     d)
       repo_dir="$OPTARG"
       ;;
-    l)
-      repo_list="$OPTARG"
+    F)
+      from_name="$OPTARG"
+      ;;
+    f)
+      from_email="$OPTARG"
       ;;
     h)
       html=1
+      ;;
+    l)
+      repo_list="$OPTARG"
+      ;;
+    s)
+      subject="$OPTARG"
       ;;
     \?) # Illegal option
       usage
