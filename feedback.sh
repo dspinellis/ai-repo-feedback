@@ -338,12 +338,13 @@ elif [ "$repo_list" ] ; then
     usage
   fi
   while read url email <"$repo_list" ; do
-    git clone "$url"
+    rm -rf repo-dir
+    git clone "$url" repo-dir
     repo=$(basename $url)
-    report "$repo" |
+    report repo-dir |
       tee report.md |
       md_to_html |
-      ./send-email.py \
+      ./send-mail.py \
       --from-name "$from_name" \
       --from-email "$from_email" \
       --to-email "$email" \
