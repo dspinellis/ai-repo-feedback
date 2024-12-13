@@ -184,7 +184,7 @@ report_source_code()
   local path="$2"
   local number="$3"
 
-  heading "## File $number $(basename $path)"
+  heading "## $number File $(basename $path)"
   (
     general_prompt
     cat <<\EOF
