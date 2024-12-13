@@ -29,7 +29,7 @@ usage()
   cat <<EOF 1>&2
 Usage:
   $(basename $0) -d repo-dir [-h]
-  $(basename $0) -l repo-list -f from-address -F from-name -s subject
+  $(basename $0) [-t] -l repo-list -f from-address -F from-name -s subject
 
   -d repo-dir   Output feedback for the specified repository directory
   -f email      Specify sender's email address
@@ -37,22 +37,24 @@ Usage:
   -h            Output feedback in HTML rather than Markdown
   -l repo-list  Send feedback emails for the repos/emails in the specified file
   -s subject    Specify email's subject
+  -t            Test run; send out email only to the sender
 
 Examples:
 feedback -d repo-dir >comments.md
-feedback -l repo-list -f mary@example.com -F 'Mary Zhu' -s Feedback
+feedback -l repo-list -f mary@example.com -F 'Mary Zhu' -s Feedback [-t]
 EOF
   exit 1
 }
 
 from_email=''
 from_name=''
-subject=''
-repo_list=''
-repo_dir=''
 html=''
+repo_dir=''
+repo_list=''
+subject=''
+test_run=''
 # Process command-line arguments
-while getopts "d:F:f:hl:s:" opt; do
+while getopts "d:F:f:hl:s:t" opt; do
   case $opt in
     d)
       repo_dir="$OPTARG"
@@ -71,6 +73,9 @@ while getopts "d:F:f:hl:s:" opt; do
       ;;
     s)
       subject="$OPTARG"
+      ;;
+    t)
+      test_run=1
       ;;
     \?) # Illegal option
       usage
@@ -338,6 +343,9 @@ elif [ "$repo_list" ] ; then
     usage
   fi
   while read url email <"$repo_list" ; do
+    if [ "$test_run" ] ; then
+      email="$from_email"
+    fi
     rm -rf repo-dir
     git clone "$url" repo-dir
     repo=$(basename $url)
