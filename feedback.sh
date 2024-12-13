@@ -326,8 +326,6 @@ md_to_html()
 {
     pandoc --metadata pagetitle="Repository report" --css=pandoc.css \
       --standalone --embed-resources
-
-Explanation
 }
 
 # Main processing starts here
@@ -356,7 +354,8 @@ elif [ "$repo_list" ] ; then
         --from-name "$from_name" \
         --from-email "$from_email" \
         --to-email "$email" \
-        --subject "$subject"
+        --subject "$subject" \
+        --content-type html
     done
 else
   usage
