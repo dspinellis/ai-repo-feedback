@@ -17,9 +17,10 @@
 # limitations under the License.
 #
 
-from openai import OpenAI
-import os
 import argparse
+from openai import OpenAI
+import io
+import os
 import sys
 
 def query_openai(prompt, model, max_tokens):
@@ -59,6 +60,10 @@ if __name__ == "__main__":
         default=150,
         help="The maximum number of tokens to include in the response (default: 150)."
     )
+    # Ensure stdin and stdout use UTF-8
+    sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
     args = parser.parse_args()
     user_prompt = sys.stdin.read().strip()
     response = query_openai(user_prompt, args.model, args.max_tokens)
