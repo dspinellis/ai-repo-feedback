@@ -30,3 +30,10 @@ feedback.sh -d repo-dir >comments.md
 # Send out reports 
 feedback.sh -l repo-list -f mary@example.com -F 'Mary Zhu' -s Feedback
 ```
+
+## Contributing back
+Contributions to this project via GitHub pull requests are welcomed,
+provided they are general enough to be used in diverse contexts.
+For example these could improve the output, change prompting to improve
+the given feedback, add new feedback types, of support another programming
+language or framework.
