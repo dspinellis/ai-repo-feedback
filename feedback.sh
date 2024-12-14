@@ -217,7 +217,7 @@ Comment, if needed, on the adoption of JavaDoc comments.
 Only provide concrete constructive suggestions regarding possible
 improvements.
 Be succinct.
-If there is nothing important to repost, just say so, e.g. "The code
+If there is nothing important to report, just say so, e.g. "The code
 is generally OK" and be done.
 Do not summarize your findings.
 EOF
