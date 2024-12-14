@@ -349,7 +349,7 @@ The report covers the following areas:
 
 * Repository contents
 * Project architecture
-* Source code
+* Source code style
 * Project build specification
 * Configuration management
 
