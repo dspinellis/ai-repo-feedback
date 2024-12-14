@@ -264,6 +264,7 @@ report_build()
   heading '# 5. Project build specification'
   if (( $(find_build "$repo" | wc -l) == 0)) ; then
     echo 'No build files (Maven, Ant, or Gradle) were found in the repository. Consider adding a build file.'
+    return
   fi
 
   (
