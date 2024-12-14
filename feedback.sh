@@ -380,6 +380,7 @@ elif [ "$repo_list" ] ; then
     if [ "$test_run" ] ; then
       email="$from_email"
     fi
+    echo "Working on $url for $email" 1>&2
     rm -rf repo-dir
     git clone "$url" repo-dir
     repo=$(basename $url)
