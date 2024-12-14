@@ -29,8 +29,9 @@ usage()
   cat <<EOF 1>&2
 Usage:
   $(basename $0) -d repo-dir [-h]
-  $(basename $0) [-t] -l repo-list -f from-address -F from-name -s subject
+  $(basename $0) [-tD] -l repo-list -f from-address -F from-name -s subject
 
+  -D            Generate debug output
   -d repo-dir   Output feedback for the specified repository directory
   -f email      Specify sender's email address
   -F name       Specify sender's name
@@ -46,6 +47,7 @@ EOF
   exit 1
 }
 
+debug=''
 from_email=''
 from_name=''
 html=''
@@ -54,8 +56,11 @@ repo_list=''
 subject=''
 test_run=''
 # Process command-line arguments
-while getopts "d:F:f:hl:s:t" opt; do
+while getopts "Dd:F:f:hl:s:t" opt; do
   case $opt in
+    D)
+      debug=1
+      ;;
     d)
       repo_dir="$OPTARG"
       ;;
@@ -89,12 +94,25 @@ done
 
 shift "$((OPTIND-1))"
 
+# Copy the input to the specified output file if debug is enabled
+# In all cases provide the input as output
+debug_tee()
+{
+  local file="$1"
+
+  if [ "$debug" ] ; then
+    tee "$file"
+  else
+    cat
+  fi
+}
+
 # Query the AI server with the prompt received from the standard input
 query_ai()
 {
-  tee query.in |
+  debug_tee query.in |
   python query-ai.py "$@" |
-  tee query.out
+  debug_tee query.out
   sleep 59
 }
 
@@ -386,7 +404,7 @@ elif [ "$repo_list" ] ; then
     git clone "$url" repo-dir
     repo=$(basename $url)
     report repo-dir "$repo" "$url" |
-      tee report.md |
+      debug_tee report.md |
       md_to_html |
       ./send-mail.py \
         --from-name "$from_name" \
