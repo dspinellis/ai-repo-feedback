@@ -2,7 +2,7 @@
 #
 # Send an email message via SMTP
 #
-# Copyright 2024 Diomidis Spinellis
+# Copyright 2024-2025 Diomidis Spinellis
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 
 
 import argparse
-import csv
 from email import encoders
 from email.header import Header
 from email.utils import formataddr
@@ -51,10 +50,15 @@ def send_mail(args, content):
     msg['Subject'] = args.subject
     msg['From'] = formataddr((str(Header(args.from_name, 'utf-8')), args.from_email))
     msg['To'] = formataddr((str(Header(args.to_name, 'utf-8')), args.to_email))
-    msg['Cc']  = ','.join([
-        formataddr((str(Header(name, 'utf-8')), email))
-        for name, email in zip(args.cc_email, args.cc_name)
-    ])
+
+    if len(args.cc_email) > 0:
+        msg['Cc']  = ','.join([
+            formataddr((str(Header(name, 'utf-8')), email))
+            for name, email in zip(args.cc_name, args.cc_email)
+        ])
+
+    if len(args.bcc_email) > 0:
+        msg['Bcc']  = ','.join(args.bcc_email)
 
     # Body
     msg.attach(MIMEText(content, args.content_type, 'utf-8'))
@@ -102,6 +106,7 @@ def parse_arguments():
     # Optional arguments
     parser.add_argument("--attachment", type=str, action='append', default=[], help="Attachment file name (can be repeated).")
     parser.add_argument("--content-type", type=str, default='plain', help="Content type (e.g. html); default is plain.")
+    parser.add_argument("--bcc-email", type=str, action='append', default=[], help="Ncc email (can be repeated).")
     parser.add_argument("--to-name", type=str, default=None, help="Recipient's name (optional).")
     parser.add_argument("--cc-email", type=str, action='append', default=[], help="CC email address (can be repeated).")
     parser.add_argument("--cc-name", type=str, action='append', default=[], help="CC name (can be repeated).")
